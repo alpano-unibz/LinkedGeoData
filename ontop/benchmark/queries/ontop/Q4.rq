@@ -1,0 +1,28 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX uom: <http://www.opengis.net/def/uom/OGC/1.0/>
+PREFIX : <http://www.semanticweb.org/alpano/ontologies/2020/3/
+gdm_vkg#>
+
+SELECT * WHERE {
+# Find class
+?a a :Motorway .
+# Retrieve geometry
+?a :asWKT ?ag .
+# Retrieve label
+?a :label ?aname .
+# Filter non-language tagged labels and Italian labels
+FILTER(lang(?aname) = "" || lang(?aname) = "it")
+# Find class
+?b a :Bridleway .
+# Retrieve geometry
+?b :asWKT ?bg .
+# Retrieve label
+?b :label ?bname .
+# Filter non-language tagged labels and Italian labels
+FILTER(lang(?bname) = "" || lang(?bname) = "it")
+# Filter objects of classes that intersect
+FILTER(geof:sfIntersects(?ag, ?bg))
+}
