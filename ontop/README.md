@@ -1,4 +1,19 @@
-Ontop Experiments and Set-Up
+Ontop Set-Up
+--------------------
+
+Ontology: Sames as LinkedGeoData  
+Mappings: Conversion of the Sparqlify mappings with some hand-crafted scripts and manual revision in Protege with the Ontop plugin Mapping Manager
+
+Sample class mapping:
+```
+mappingId   lgd_node_tags_resource_kv_Airport
+target      :node{node_id} a :Airport .
+source      SELECT * FROM lgd_node_tags_resource_kv
+                WHERE object=’http://linkedgeodata.org/ontology/Airport’
+                AND ((property LIKE ’http://linkedgeodata.org/ontology/\%’) OR (property LIKE ’http://www.w3.org/\%’))
+```
+
+Ontop Experiments
 --------------------
 
 Datasets analyzed: North-East Italy, Italy, Germany
