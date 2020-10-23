@@ -6,17 +6,41 @@ To conduct the experiments you should set up an Ontop SPARQL endpoint which can 
 The Docker image [ontop/ontop-endpoint](https://hub.docker.com/r/ontop/ontop-endpoint) is for fast setting up an Ontop SPARQL endpoint. One can either use this image directly, or create a dedicated image based on this image.
 
 1. Go to the endpoint/ directory. You can download the following files and and paste them in `input/`:
-   * <a href="https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/ontop/gdm_vkg.owl">this OWL Ontology file</a>
-   * <a href="https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/ontop/gdm_vkg.obda">this mapping file</a>
-   * <a href="https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/ontop/gdm_vkg.properties">this properties file</a>
+   * <a href="https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/linkedgeodata-ontop/gdm_vkg.owl">this OWL Ontology file</a>
+   * <a href="https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/linkedgeodata-ontop/gdm_vkg.obda">this mapping file</a>
+   * <a href="https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/linkedgeodata-ontop/gdm_vkg.properties">this properties file</a>
 2. Make sure to have the `jdbc/` directory and the JDBC driver inside.</li>
 
 In addition, we need the PostgreSQL database running with data loaded like the LinkedGeoData project.
 
 **NB**: Linux users have to modify the property `jdbc.url` in `input/university-complete.docker.properties`. Replace `host.docker.internal` with the IP address of your machine (you can see it running the `ifconfig` command).
 
+**Create a dedicated Docker image**
+We recommend to deploy a self-contained image, for which we can write a complete `Dockerfile`:
+```
+FROM ontop/ontop-endpoint
+WORKDIR /opt/ontop
+COPY input/university-complete.ttl input/university-complete.obda input/university-complete.docker.properties input/ 
+COPY jdbc/h2-1.4.196.jar jdbc/
+EXPOSE 8080
+ENTRYPOINT java -cp ./lib/*:./jdbc/* -Dlogback.configurationFile=file:./log/logback.xml \
+        it.unibz.inf.ontop.cli.Ontop endpoint \
+        --ontology=input/university-complete.ttl \
+        --mapping=input/university-complete.obda \
+        --properties=input/university-complete.docker.properties \
+        --cors-allowed-origins=http://yasgui.org \
+        --lazy # if needed
+```
+
+Then, run the commands to build and run the Docker image:
+```
+$ docker build -t my-ontop-endpoint .
+$ docker run -it --rm --name my-running-ontop-endpoint -p 8080:8080 my-ontop-endpoint
+```
+
 Further details can also be found on the official Ontop website: https://ontop-vkg.org/tutorial/endpoint/endpoint-docker.html
 
+**Further details on Ontology and Mappings**
 Ontology: Same as LinkedGeoData  
 Mappings: Conversion of the Sparqlify mappings with some hand-crafted scripts and manual revision in Protege with the Ontop plugin Mapping Manager
 
