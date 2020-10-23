@@ -5,19 +5,15 @@ To conduct the experiments you should set up an Ontop SPARQL endpoint which can 
 
 The Docker image [ontop/ontop-endpoint](https://hub.docker.com/r/ontop/ontop-endpoint) is for fast setting up an Ontop SPARQL endpoint. One can either use this image directly, or create a dedicated image based on this image.
 
-<ol>
-    <li>Go to the endpoint/ directory. You can download the following files and and paste them in input/.:
-    <ul>
-        <li>[this OWL ontology file]https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/ontop/gdm_vkg.owl
-        <li>[this mapping file](https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/ontop/gdm_vkg.obda)
-        <li>[this properties file](https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/ontop/gdm_vkg.p)
-    </ul>
-    <li>Make sure to have the jdbc/ directory and the JDBC driver inside.</li>
-</ol>
+1. Go to the endpoint/ directory. You can download the following files and and paste them in `input/`:
+   * <a href="https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/ontop/gdm_vkg.owl">this OWL Ontology file</a>
+   * <a href="https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/ontop/gdm_vkg.obda">this mapping file</a>
+   * <a href="https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/ontop/gdm_vkg.properties">this properties file</a>
+2. Make sure to have the `jdbc/` directory and the JDBC driver inside.</li>
 
 In addition, we need the PostgreSQL database running with data loaded like the LinkedGeoData project.
 
-**NB**: Linux users have to modify the property jdbc.url in input/university-complete.docker.properties. Replace host.docker.internal with the IP address of your machine (you can see it running the ifconfig command).
+**NB**: Linux users have to modify the property `jdbc.url` in `input/university-complete.docker.properties`. Replace `host.docker.internal` with the IP address of your machine (you can see it running the `ifconfig` command).
 
 Further details can also be found on the official Ontop website: https://ontop-vkg.org/tutorial/endpoint/endpoint-docker.html
 
