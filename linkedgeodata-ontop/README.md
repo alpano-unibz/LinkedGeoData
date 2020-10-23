@@ -1,7 +1,27 @@
 Ontop Set-Up
 --------------------
 
-Ontology: Sames as LinkedGeoData  
+To conduct the experiments you should set up an Ontop SPARQL endpoint which can be either done via CLI or Docker, but for reliability Docker is recommended.
+
+The Docker image [ontop/ontop-endpoint](https://hub.docker.com/r/ontop/ontop-endpoint) is for fast setting up an Ontop SPARQL endpoint. One can either use this image directly, or create a dedicated image based on this image.
+
+<ol>
+    <li>Go to the endpoint/ directory. You can download the following files and and paste them in input/.:
+    <ul>
+        <li>[this OWL ontology file]https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/ontop/gdm_vkg.owl
+        <li>[this mapping file](https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/ontop/gdm_vkg.obda)
+        <li>[this properties file](https://github.com/alpano-unibz/LinkedGeoData/blob/ontop-dev/ontop/gdm_vkg.p)
+    </ul>
+    <li>Make sure to have the jdbc/ directory and the JDBC driver inside.</li>
+</ol>
+
+In addition, we need the PostgreSQL database running with data loaded like the LinkedGeoData project.
+
+**NB**: Linux users have to modify the property jdbc.url in input/university-complete.docker.properties. Replace host.docker.internal with the IP address of your machine (you can see it running the ifconfig command).
+
+Further details can also be found on the official Ontop website: https://ontop-vkg.org/tutorial/endpoint/endpoint-docker.html
+
+Ontology: Same as LinkedGeoData  
 Mappings: Conversion of the Sparqlify mappings with some hand-crafted scripts and manual revision in Protege with the Ontop plugin Mapping Manager
 
 Sample class mapping:
@@ -16,7 +36,8 @@ source      SELECT * FROM lgd_node_tags_resource_kv
 Ontop Experiments
 --------------------
 
-Datasets analyzed: North-East Italy, Italy, Germany
+The sample datasets were retrieved on August 1st from Geofabrik at http://download.geofabrik.de/europe.html.
+Datasets analyzed included North-East Italy, Italy, Germany (the datasets are too large to be uploaded here)
 
 Table: Queries Performed
 
@@ -60,6 +81,6 @@ Table: Query Response Time (seconds)
 | Germany | Q6 | NS | 1.461
 | Germany | Q7 | NS | 1.496
 
-where
+where  
 NA: Could not run due to memory constraints.  
 NS: Could not run due to not being supported.
